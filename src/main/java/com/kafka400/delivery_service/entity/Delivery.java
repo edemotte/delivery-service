@@ -1,21 +1,24 @@
-package com.kafka400.delivery_service.domain;
+package com.kafka400.delivery_service.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import java.util.UUID;
 
 @Getter
 @Entity
-@Table(name = "deliveries")
+@Table(name = "customer_delivery")
+@NoArgsConstructor
 public class Delivery {
 
     @Id
-    private String deliveryId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID deliveryId;
 
     @Column(nullable = false, unique = true)
-    private String orderId;
+    private UUID orderId;
 
     @Column(nullable = false)
     private String customerName;
@@ -32,20 +35,14 @@ public class Delivery {
     @Column(nullable = false)
     private String status;
 
-    protected Delivery() {
-        // Required by JPA
-    }
-
     public Delivery(
-            String deliveryId,
-            String orderId,
+            UUID orderId,
             String customerName,
             String deliveryAddress,
             String itemName,
             int quantity,
             String status
     ) {
-        this.deliveryId = deliveryId;
         this.orderId = orderId;
         this.customerName = customerName;
         this.deliveryAddress = deliveryAddress;
